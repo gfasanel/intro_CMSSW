@@ -1,0 +1,123 @@
+
+<!-- saved from url=(0056)http://nuclear.ucdavis.edu/~jrobles/CMS/Intro/Intro.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>	
+<strong>
+Basic Introduction to CMSSW
+</strong>
+<hr>
+<p>
+At this point you sould have an lxplus account at CERN 
+</p><ul>
+<br>
+<li>The first thing is to check out a version of the CMS SoftWare (CMSSW) by using the command:
+<br><br>
+<em>scramv1 project CMSSW CMSSW_1_6_8
+</em><br><strong>
+NOTE: This should be in the directory were you want to keep this version of CMSSW
+<br><br></strong><br>
+</li><li>Now we need to check out some libaries from the CVS to generate the events
+<br><em><br>
+eval `scramv1 runtime -csh`
+<br>
+cd CMSSW_1_6_8/src
+<br>
+ cmscvsroot CMSSW
+<br>
+cvs login
+</em>
+<br><br>
+Password is : 98passwd
+<br><br>
+</li><li>
+Now choose the libary to check out in this case:
+<br><br>
+<em>
+cvs co -r CMSSW_1_6_8 FastSimulation
+</em>
+<br><br>
+</li><li>
+We have the libaries we need, now generate some events
+<br>Going to :
+<br><br><em>
+~/CMSSW_1_6_8/src/FastSimulation/Configuration/test/Example.cfg
+</em>
+<br><br>Edit this file to make sure that the line that sends the output to a .root file is uncommented
+<em><a href="http://nuclear.ucdavis.edu/~jrobles/CMS/Intro/links/Example.cfg">
+<br>Example.cfg</a></em>
+<br><br>
+</li><li>
+To create the events :
+<br><br><em>
+cmsRun Example.cgf &amp;
+</em>
+<br><br>
+</li><li>At this point you should have a .root file with your generated events, now to analyze the events
+<br>
+Create a directory were you will keep your analyzer
+<em><br><br>
+cd
+<br>
+cd CMSSW_1_6_8/src
+<br>
+mkdir myanalyzer
+<br>cd myanallyzer
+</em>
+<br><br>
+</li><li>
+Now to get the skeleton code of the analyzer:
+<br><br><em>
+mkedanlzr Myanalyzer
+<br>
+cd Myanalyzer/src
+<br><br></em>
+</li><li>Here should be a the file Myanalyzer.cc, this is just a skeleton libraries need to be added
+<br> and the actual analysis code needs to be created as well as the histograms output (.root) files,
+<br> follow the example
+<em><a href="http://nuclear.ucdavis.edu/~jrobles/CMS/Intro/links/Myanalyzer.cc">
+<br>Myanalyzer.cc </a></em>
+<br><br>
+</li><li>Now edit the myanalyzer.cfg file, to give it right path to the generated data, should be
+<br>under test, follow the example, make sure you give it the complete path
+<em><a href="http://nuclear.ucdavis.edu/~jrobles/CMS/Intro/links/myanalyzer.cfg">
+<br>myanalyzer.cfg</a></em>
+
+<br><br>
+</li><li>Now add the pertinent libaries to the Build file:
+<br><br><em>cd ..
+<br>ls</em>
+<br><br>
+Edit the BuildFile, use the following example, 
+
+<em><a href="http://nuclear.ucdavis.edu/~jrobles/CMS/Intro/links/BuildFile">
+<br>BuildFile</a></em>
+<br><br>
+</li><li>At this point reset you environment, make sure that when you type <em>ls</em> you can 
+<br>"see" the BuildFile 
+<br><br><em>
+eval `scramv1 runtime -csh`</em>
+<br><br>
+</li><li>To Compile use
+<br><br>
+<em>scramv1 b
+</em>
+<br><br>
+</li><li>Now run you analysis code
+<br><br><em>
+cmsRun test/myanalyzer.cfg &gt;&amp; output.txt&amp;</em>
+<br><br>
+</li><li>Now you should have a .root file with your histograms
+<br><br>
+<em>root -l
+<br></em>root[0]<em> TFile* file = TFile::Open("******.root")
+<br></em>root[1]<em> .ls</em>
+<br><br>
+At this point you should see your histograms
+<br>
+<strong>NOTE: The ****** is the name you gave to your .root file when editing Myanalyzer.cc</strong>
+</li></ul>
+<p></p>
+<img src="./IntroCMSSW_files/count" alt="hits">
+
+
+
+</body></html>
